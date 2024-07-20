@@ -1,6 +1,9 @@
-# java
-Sure! Here’s a comprehensive list of operations you can perform on an array in Java, categorized for clarity:
-
+# Java
+## Data Structures
+1. **Arrays**
+   - `int[] arr = new int[size];`
+   - `Arrays.sort(arr);`
+   - `for (int num : arr) { ... }`
 ### Basic Operations
 1. **Declaration**:
     ```java
@@ -138,7 +141,6 @@ Sure! Here’s a comprehensive list of operations you can perform on an array in
     System.arraycopy(oldArray, 0, newArray, 0, Math.min(oldArray.length, newSize));
     ```
 
-These operations cover a wide range of manipulations you might need to perform on arrays in Java. By mastering these, you’ll be well-equipped to handle array-related tasks efficiently.
 ## Java.util.Arrays
 The `java.util.Arrays` class provides various static methods for array manipulation, including sorting, searching, comparing, filling, and converting arrays. Here’s a categorized list of these methods:
 
@@ -239,4 +241,164 @@ The `java.util.Arrays` class provides various static methods for array manipulat
 - **Hashing**: `hashCode`, `deepHashCode`
 - **Miscellaneous**: `asList`, `stream`, `setAll`, `parallelSetAll`
 
-These methods provide a wide range of functionalities to handle and manipulate arrays efficiently in Java.
+In LeetCode solutions, Java operations and constructs often revolve around common data structures, algorithmic techniques, and utility functions. Here’s a list of some of the most common Java operations and constructs used in LeetCode solutions:
+
+2. **Lists**
+   - `List<Integer> list = new ArrayList<>();`
+   - `list.add(value);`
+   - `list.get(index);`
+   - `list.size();`
+   - `Collections.sort(list);`
+
+3. **HashMaps**
+   - `Map<Integer, Integer> map = new HashMap<>();`
+   - `map.put(key, value);`
+   - `map.get(key);`
+   - `map.containsKey(key);`
+   - `map.remove(key);`
+
+4. **HashSets**
+   - `Set<Integer> set = new HashSet<>();`
+   - `set.add(value);`
+   - `set.contains(value);`
+   - `set.remove(value);`
+
+5. **Queues**
+   - `Queue<Integer> queue = new LinkedList<>();`
+   - `queue.offer(value);`
+   - `queue.poll();`
+   - `queue.peek();`
+
+6. **Stacks**
+   - `Stack<Integer> stack = new Stack<>();`
+   - `stack.push(value);`
+   - `stack.pop();`
+   - `stack.peek();`
+
+7. **PriorityQueues (Heaps)**
+   - `PriorityQueue<Integer> pq = new PriorityQueue<>();`
+   - `pq.offer(value);`
+   - `pq.poll();`
+   - `pq.peek();`
+
+8. **LinkedLists**
+   - `ListNode head = new ListNode(value);`
+   - `head.next = new ListNode(value);`
+
+### Algorithmic Techniques
+1. **Binary Search**
+   - `Arrays.binarySearch(arr, key);`
+   - Implementing custom binary search:
+     ```java
+     int left = 0, right = arr.length - 1;
+     while (left <= right) {
+         int mid = left + (right - left) / 2;
+         if (arr[mid] == target) { ... }
+         else if (arr[mid] < target) { left = mid + 1; }
+         else { right = mid - 1; }
+     }
+     ```
+
+2. **Two Pointers**
+   - Used for problems like finding pairs in a sorted array, reversing a string in place, etc.
+     ```java
+     int left = 0, right = arr.length - 1;
+     while (left < right) {
+         // Swap elements, move pointers, etc.
+         left++;
+         right--;
+     }
+     ```
+
+3. **Depth-First Search (DFS) and Breadth-First Search (BFS)**
+   - DFS using recursion or stack:
+     ```java
+     void dfs(TreeNode node) {
+         if (node == null) return;
+         dfs(node.left);
+         dfs(node.right);
+     }
+     ```
+   - BFS using queue:
+     ```java
+     Queue<TreeNode> queue = new LinkedList<>();
+     queue.offer(root);
+     while (!queue.isEmpty()) {
+         TreeNode node = queue.poll();
+         if (node.left != null) queue.offer(node.left);
+         if (node.right != null) queue.offer(node.right);
+     }
+     ```
+
+### Utility Functions
+1. **String Operations**
+   - `str.charAt(index);`
+   - `str.substring(start, end);`
+   - `str.split(delimiter);`
+   - `str.equals(otherString);`
+   - `StringBuilder sb = new StringBuilder();`
+   - `sb.append(value);`
+
+2. **Math Operations**
+   - `Math.max(a, b);`
+   - `Math.min(a, b);`
+   - `Math.abs(value);`
+   - `Math.pow(base, exponent);`
+
+3. **Sorting and Searching**
+   - `Arrays.sort(arr);`
+   - `Collections.sort(list);`
+   - `Collections.binarySearch(list, key);`
+
+4. **Stream API**
+   - `list.stream().filter(...).collect(Collectors.toList());`
+   - `list.stream().map(...).collect(Collectors.toList());`
+
+5. **Custom Comparator**
+   - Sorting with custom comparator:
+     ```java
+     Collections.sort(list, new Comparator<Type>() {
+         public int compare(Type t1, Type t2) {
+             return t1.property - t2.property;
+         }
+     });
+     ```
+
+### Common Patterns
+1. **Sliding Window**
+   - Used for problems involving subarrays or substrings.
+     ```java
+     int left = 0, right = 0;
+     while (right < arr.length) {
+         // Expand the window
+         right++;
+         // Shrink the window
+         left++;
+     }
+     ```
+
+2. **Backtracking**
+   - Used for problems like generating permutations, combinations, etc.
+     ```java
+     void backtrack(List<Integer> list, int[] nums) {
+         if (list.size() == nums.length) {
+             result.add(new ArrayList<>(list));
+             return;
+         }
+         for (int i = 0; i < nums.length; i++) {
+             list.add(nums[i]);
+             backtrack(list, nums);
+             list.remove(list.size() - 1);
+         }
+     }
+     ```
+
+3. **Dynamic Programming**
+   - Often involves filling a DP table:
+     ```java
+     int[] dp = new int[n + 1];
+     dp[0] = 1;
+     for (int i = 1; i <= n; i++) {
+         dp[i] = dp[i - 1] + dp[i - 2];
+     }
+     ```
