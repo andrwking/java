@@ -376,6 +376,71 @@ In LeetCode solutions, Java operations and constructs often revolve around commo
          left++;
      }
      ```
+   - 1. Fixed Size Sliding Window
+
+      ```java
+      // Problem: Find the maximum sum of a subarray of size k.
+      public class SlidingWindow {
+          public static int maxSum(int[] arr, int k) {
+              int n = arr.length;
+              if (n < k) {
+                  System.out.println("Invalid");
+                  return -1;
+              }
+      
+              int maxSum = 0;
+              for (int i = 0; i < k; i++) {
+                  maxSum += arr[i];
+              }
+      
+              int windowSum = maxSum;
+              for (int i = k; i < n; i++) {
+                  windowSum += arr[i] - arr[i - k];
+                  maxSum = Math.max(maxSum, windowSum);
+              }
+      
+              return maxSum;
+          }
+      
+          public static void main(String[] args) {
+              int[] arr = {1, 2, 3, 4, 5, 6, 1, 2, 3};
+              int k = 3;
+              System.out.println("Maximum sum of subarray of size " + k + " is " + maxSum(arr, k));
+          }
+      }
+      ```
+   - 2. Variable Size Sliding Window
+
+      ```java
+      // Problem: Find the length of the smallest subarray with a sum greater than or equal to s.
+      public class SlidingWindow {
+          public static int minSubArrayLen(int s, int[] nums) {
+              int n = nums.length;
+              int minLength = Integer.MAX_VALUE;
+              int sum = 0;
+              int left = 0;
+      
+              for (int right = 0; right < n; right++) {
+                  sum += nums[right];
+      
+                  while (sum >= s) {
+                      minLength = Math.min(minLength, right - left + 1);
+                      sum -= nums[left++];
+                  }
+              }
+      
+              return minLength == Integer.MAX_VALUE ? 0 : minLength;
+          }
+      
+          public static void main(String[] args) {
+              int[] nums = {2, 3, 1, 2, 4, 3};
+              int s = 7;
+              System.out.println("Length of smallest subarray: " + minSubArrayLen(s, nums));
+          }
+      }
+
+      ```
+      
 
 2. **Backtracking**
    - Used for problems like generating permutations, combinations, etc.
