@@ -467,3 +467,186 @@ In LeetCode solutions, Java operations and constructs often revolve around commo
          dp[i] = dp[i - 1] + dp[i - 2];
      }
      ```
+
+## Dijkstra's algorithm
+
+### 1. Understand the Theory
+
+**Dijkstra's Algorithm** is used to find the shortest path from a source node to all other nodes in a weighted graph. It works on graphs with non-negative weights.
+
+#### Steps:
+1. **Initialize**: Set the distance to the source node to 0 and the distance to all other nodes to infinity.
+2. **Visit Nodes**: Visit the unvisited node with the smallest known distance.
+3. **Update Distances**: For the current node, consider all its unvisited neighbors and calculate their tentative distances through the current node. If the calculated distance of a node is less than the known distance, update the shortest distance.
+4. **Mark Visited**: Mark the current node as visited. A visited node will not be checked again.
+5. **Repeat**: Repeat steps 2-4 until all nodes have been visited.
+
+### 2. Implementing Dijkstra's Algorithm in Java
+
+Here's a basic implementation of Dijkstra's Algorithm using a priority queue:
+
+```java
+import java.util.*;
+
+class Graph {
+    private final Map<Integer, List<Node>> nodes = new HashMap<>();
+
+    public void addEdge(int source, int destination, int weight) {
+        nodes.putIfAbsent(source, new ArrayList<>());
+        nodes.get(source).add(new Node(destination, weight));
+    }
+
+    public Map<Integer, Integer> dijkstra(int start) {
+        // Priority queue to select the node with the smallest distance
+        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(node -> node.distance));
+        queue.add(new Node(start, 0));
+
+        // Map to store the shortest distance from start to each node
+        Map<Integer, Integer> distances = new HashMap<>();
+        distances.put(start, 0);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+
+            for (Node neighbor : nodes.getOrDefault(current.vertex, Collections.emptyList())) {
+                int newDist = distances.get(current.vertex) + neighbor.distance;
+
+                if (newDist < distances.getOrDefault(neighbor.vertex, Integer.MAX_VALUE)) {
+                    distances.put(neighbor.vertex, newDist);
+                    queue.add(new Node(neighbor.vertex, newDist));
+                }
+            }
+        }
+
+        return distances;
+    }
+
+    static class Node {
+        int vertex;
+        int distance;
+
+        Node(int vertex, int distance) {
+            this.vertex = vertex;
+            this.distance = distance;
+        }
+    }
+
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+        graph.addEdge(0, 1, 4);
+        graph.addEdge(0, 2, 1);
+        graph.addEdge(2, 1, 2);
+        graph.addEdge(1, 3, 1);
+        graph.addEdge(2, 3, 5);
+
+        Map<Integer, Integer> distances = graph.dijkstra(0);
+        for (Map.Entry<Integer, Integer> entry : distances.entrySet()) {
+            System.out.println("Distance from 0 to " + entry.getKey() + " is " + entry.getValue());
+        }
+    }
+}
+```
+
+## Two pointers 
+- is a common and powerful technique often used to solve problems involving arrays or linked lists. This method uses two pointers to traverse the data structure and find specific values or pairs that meet certain conditions.
+
+### Example 1: Finding a Pair with a Given Sum in a Sorted Array
+
+Given a sorted array and a target sum, find a pair of numbers that add up to the target sum.
+
+```java
+public class TwoPointersExample {
+    public static int[] findPairWithSum(int[] arr, int targetSum) {
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+            if (sum == targetSum) {
+                return new int[]{arr[left], arr[right]};
+            } else if (sum < targetSum) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return new int[]{-1, -1}; // Return -1, -1 if no pair is found
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 6};
+        int targetSum = 6;
+        int[] result = findPairWithSum(arr, targetSum);
+        System.out.println("Pair: (" + result[0] + ", " + result[1] + ")");
+    }
+}
+```
+
+### Example 2: Removing Duplicates from a Sorted Array
+
+Given a sorted array, remove the duplicates in-place such that each element appears only once and return the new length.
+
+```java
+public class TwoPointersExample {
+    public static int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
+
+        int i = 0;
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[j] != nums[i]) {
+                i++;
+                nums[i] = nums[j];
+            }
+        }
+        return i + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {0, 0, 1, 1, 2, 2, 3, 3, 4};
+        int length = removeDuplicates(nums);
+        System.out.println("New length: " + length);
+        for (int i = 0; i < length; i++) {
+            System.out.print(nums[i] + " ");
+        }
+    }
+}
+```
+
+### Example 3: Moving Zeros to the End
+
+Given an array of integers, move all zeros to the end while maintaining the relative order of the non-zero elements.
+
+```java
+public class TwoPointersExample {
+    public static void moveZeroes(int[] nums) {
+        int lastNonZeroFoundAt = 0;
+
+        // Move all non-zero elements to the front
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                nums[lastNonZeroFoundAt++] = nums[i];
+            }
+        }
+
+        // Fill the remaining positions with zeros
+        for (int i = lastNonZeroFoundAt; i < nums.length; i++) {
+            nums[i] = 0;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {0, 1, 0, 3, 12};
+        moveZeroes(nums);
+        for (int num : nums) {
+            System.out.print(num + " ");
+        }
+    }
+}
+```
+
+### Key Points to Remember
+
+1. **Initialization**: Initialize two pointers to start at different positions, typically the beginning and end of the array or list.
+2. **Traversal**: Move the pointers based on specific conditions, ensuring that you don't miss any potential solutions.
+3. **Condition Checking**: Ensure that your condition checks (like sum, comparison, etc.) are correctly implemented to guide the movement of pointers.
+4. **Edge Cases**: Handle edge cases such as empty arrays, arrays with one element, etc.
